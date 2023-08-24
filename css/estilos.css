@@ -1,0 +1,4 @@
+/* Establecer el color del texto de los párrafos a rojo */
+p {
+    background-color: red;
+}
