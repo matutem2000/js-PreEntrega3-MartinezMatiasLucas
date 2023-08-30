@@ -1,5 +1,6 @@
 // Productos
-import { productosSupermercado } from './productos.js';
+ import { productosSupermercado } from './productos.js';
+
 
 
   const inputBusqueda = document.getElementById('busqueda');
@@ -18,21 +19,20 @@ import { productosSupermercado } from './productos.js';
         <td>${precio}</td>
         <td>${cantidadDisponible}</td>
         <td>${marca}</td>
-        <td><button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modificarProducto-${idProducto}">Modificar</button></td>
+        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modificarProducto-${idProducto}">Seleccionar</button></td>
         <!-- Modal -->
           <div class="modal fade" id="modificarProducto-${idProducto}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Modificar ${nombre}</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Seleccionar ${nombre}</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form>
                 <div class="modal-body">
-                  <p>Nombre producto : <input type="text" name="nombreProducto" value="${nombre}"></p>
-                  <p>Nombre categoria : <input type="text" name="categoriaProducto" value="${categoria}"></p>
-                  <p>Precio : <input type="text" name="precioProducto" value="${precio}"></p>
-                  <p>Cantidad disponible : <input type="text" name="cantidadDisponible" value="${cantidadDisponible}"></p>
+                  
+                  <p>Precio por unidad ${precio}</p>
+                  <p>Cantidad que desea: <input type="number" name="cantidadDisponible" min="1" max="${cantidadDisponible}"></p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -97,6 +97,51 @@ console.log(index);
     }
   }
 });
+
+/* // Obtener o inicializar el carrito desde el localStorage
+const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+// Función para guardar el carrito en el localStorage
+function guardarCarritoEnLocalStorage() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+
+tablaProductos.addEventListener('click', function(event) {
+  if (event.target.id === 'botonModificar') {
+    
+    if (productoEnCarrito) {
+      // Si el producto ya está en el carrito, actualiza la cantidad
+      productoEnCarrito.cantidad += cantidadSeleccionada;
+    } else {
+      // Si el producto no está en el carrito, agrégalo
+      carrito.push({
+        idProducto,
+        nombre: nombreProducto,
+        precio: precioProducto,
+        cantidad: cantidadSeleccionada
+      });
+    }
+
+    // Guardar el carrito actualizado en el localStorage
+    guardarCarritoEnLocalStorage();
+
+    // Actualiza el contenido del carrito en el HTML
+    actualizarCarrito();
+  }
+});
+
+// Función para cargar el carrito desde el localStorage y actualizar el HTML
+function cargarCarritoDesdeLocalStorage() {
+  if (carrito.length > 0) {
+    // Actualiza el contenido del carrito en el HTML
+    actualizarCarrito();
+  }
+}
+
+// Carga el carrito desde el localStorage al cargar la página
+cargarCarritoDesdeLocalStorage(); */
+
  
 
   

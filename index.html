@@ -14,7 +14,30 @@
     <main>
         <div class="container">
             <section>
-               
+                <form id="loginForm">
+                    <div class="imgcontainer">
+                      <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                    </div>
+                    <div class="container">
+                      <label for="usuario"><b>Usuario</b></label>
+                      <input type="text" placeholder="Escriba su usuario" id="usuario" name="usuario" required>
+                  
+                      <label for="password"><b>Contraseña</b></label>
+                      <input type="password" placeholder="Escriba su contraseña" id="password" name="password" required>
+                      <label for="perfil"><b>Perfil</b></label>
+                      <select class="form-select" name="perfil" aria-label="Default select example">
+                          <option selected>Seleccione su perfil</option>
+                          <option value="1">Administrador</option>
+                          <option value="2">Repositor</option>
+                          <option value="3">Cliente</option>
+                        </select>
+                        <button type="submit">Inicio</button>
+                    </div>
+                    <div class="container" style="background-color:#f1f1f1">
+                        <button type="button" class="cancelbtn">Cancelar</button>
+                      
+                    </div>
+                  </form> 
             </section>
         </div>
     </main>
