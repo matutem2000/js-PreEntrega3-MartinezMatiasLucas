@@ -1,6 +1,6 @@
 // Productos
  import { productosSupermercado } from './productos.js';
- import {vaciarCarritoEnLocalStorage} from './vaciar.js'
+ import {vaciarCarritoEnLocalStorage} from './vaciar.js';
 
 // Define la variable carrito
 let carrito = [];
@@ -138,9 +138,7 @@ function cargarCarritoDesdeLocalStorage() {
 
 // Función para actualizar el contenido del carrito en el HTML
 function actualizarCarrito() {
-  // Documentación
-  console.log('Actualizando carrito...');
-
+  
   // Obtiene el contenedor del carrito
   const carritoContainer = document.querySelector('#collapseOne .accordion-body');
 
@@ -175,17 +173,19 @@ function actualizarCarrito() {
   const botonVaciar = document.createElement('button');
   botonVaciar.setAttribute('type', 'button');
   botonVaciar.setAttribute('class', 'btn btn-danger');
-  botonVaciar.setAttribute('id', 'botonSelectProduct');
+  botonVaciar.setAttribute('id', 'botonVaciar');
   botonVaciar.setAttribute('data-bs-dismiss', 'modal');
   botonVaciar.innerHTML = 'Vaciar';
 
   carritoContainer.appendChild(botonComprar);
   carritoContainer.appendChild(botonVaciar);
+  const vaciarCarrito = document.getElementById('botonVaciar');
+  vaciarCarrito.addEventListener("click", vaciarCarritoEnLocalStorage); 
 }
-
-
 // Carga el carrito desde el localStorage al cargar la página
 cargarCarritoDesdeLocalStorage();
+
+
 
 
 
