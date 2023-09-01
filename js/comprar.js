@@ -1,12 +1,18 @@
-import { descontarCantidadesCarrito } from './productos.js';
+import {productosSupermercado} from './productos.js'
+import { descontarCantidadesCarrito } from './cliente.js';
 import {vaciarCarritoEnLocalStorage} from './vaciar.js';
 
+
   // Botón para comprar
-  const botonComprar = document.querySelector('#botonSelectProduct');
-  botonComprar.addEventListener('click', function(event) {
+/*   const botonComprar = document.querySelector('#botonSelectProduct'); */
+  function realizarCompra () {
+      // Descuenta las cantidades de cada elemento del array de objetos productosSupermercado
+      
+      descontarCantidadesCarrito();
+      
     // Vacía el carrito en localstorage
-    vaciarCarritoEnLocalStorage();
+    //SvaciarCarritoEnLocalStorage();
   
-    // Descuenta las cantidades de cada elemento del array de objetos productosSupermercado
-    descontarCantidadesCarrito();
-  });
+  };
+
+  export {realizarCompra};

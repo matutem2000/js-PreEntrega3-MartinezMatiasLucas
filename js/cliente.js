@@ -1,6 +1,9 @@
 // Productos
  import { productosSupermercado } from './productos.js';
- import {vaciarCarritoEnLocalStorage} from './vaciar.js';
+import {vaciarCarritoEnLocalStorage} from './vaciar.js';
+import {realizarCompra} from './comprar.js';
+
+ 
 
 // Define la variable carrito
 let carrito = [];
@@ -11,9 +14,10 @@ let carrito = [];
   const botonOrdenarPorPrecioDs = document.getElementById('ordenarPorPrecioDs');
   const botonOrdenarPorPrecioAs = document.getElementById('ordenarPorPrecioAs');
 
-  function renderizarProductos(productos) {
+  //Renderizar productos a la tabla
+  function renderizarProductos(productosSupermercado) {
     tablaProductos.innerHTML = '';
-    productos.forEach(({idProducto, nombre, categoria, precio, cantidadDisponible, marca}) => {
+    productosSupermercado.forEach(({idProducto, nombre, categoria, precio, cantidadDisponible, marca}) => {
       const fila = document.createElement('tr');
       fila.innerHTML = `
         <td>${idProducto}</td>
@@ -49,6 +53,7 @@ let carrito = [];
       tablaProductos.appendChild(fila);
     });
   }
+  
   //Filtrar productos
   function filtrarProductos() {
     const terminoBusqueda = inputBusqueda.value.toLowerCase();
@@ -132,6 +137,7 @@ function cargarCarritoDesdeLocalStorage() {
     `).join('');
 
     carritoContainer.innerHTML = carritoHTML;
+    actualizarCarrito();
   }
 }
 
@@ -166,7 +172,7 @@ function actualizarCarrito() {
   const botonComprar = document.createElement('button');
   botonComprar.setAttribute('type', 'button');
   botonComprar.setAttribute('class', 'btn btn-primary');
-  botonComprar.setAttribute('id', 'botonSelectProduct');
+  botonComprar.setAttribute('id', 'botonComprar');
   botonComprar.setAttribute('data-bs-dismiss', 'modal');
   botonComprar.innerHTML = 'Comprar';
 
@@ -179,17 +185,38 @@ function actualizarCarrito() {
 
   carritoContainer.appendChild(botonComprar);
   carritoContainer.appendChild(botonVaciar);
+  // Botón para vaciar
   const vaciarCarrito = document.getElementById('botonVaciar');
   vaciarCarrito.addEventListener("click", vaciarCarritoEnLocalStorage); 
+  // Botón para comprar
+  const botonRealizarCompra = document.getElementById('botonComprar');
+  botonRealizarCompra.addEventListener("click", realizarCompra)
 }
 // Carga el carrito desde el localStorage al cargar la página
 cargarCarritoDesdeLocalStorage();
 
+let actualizaProductosSuper = [];
+// Función para descontar las cantidades de cada elemento del array de objetos productosSupermercado
+function descontarCantidadesCarrito() {
+  const valorLocalStorage = JSON.parse(localStorage.getItem("carrito"));
 
+  // Recorremos el array de productos del supermercado
+  productosSupermercado.forEach((prod, i) => {
+    // Recorremos el array de productos del carrito
+    valorLocalStorage.forEach((carritoItem) => {
+      // Si el id del producto coincide, restamos la cantidad del producto del carrito de la cantidad disponible del producto del supermercado
+      if (prod.idProducto == carritoItem.idProducto) {
+        // Actualizamos la cantidad disponible del producto del supermercado
+        productosSupermercado[i].cantidadDisponible = prod.cantidadDisponible - carritoItem.cantidad;
+        
+        renderizarProductos(productosSupermercado)
+      }
+    });
+    //return productosSupermercado[i].cantidadDisponible
+  });
+  console.log(actualizaProductosSuper); 
+}
 
-
-
-  
   inputBusqueda.addEventListener('input', filtrarProductos);
   //Boton ordenar precios en forma descendente
   botonOrdenarPorPrecioDs.addEventListener('click', ordenarProductosPorPrecioDescendente);
@@ -200,3 +227,4 @@ cargarCarritoDesdeLocalStorage();
   renderizarProductos(productosSupermercado);
   
 
+export {descontarCantidadesCarrito};

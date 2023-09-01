@@ -161,17 +161,6 @@ let productosSupermercado = [
     }
   ];
 
-   // Función para descontar las cantidades de cada elemento del array de objetos productosSupermercado
-   function descontarCantidadesCarrito() {
-    for (const producto of productosSupermercado) {
-      // Encuentra el producto en el carrito
-      const productoEnCarrito = carrito.find(producto => producto.idProducto === producto.idProducto);
-  
-      // Si el producto está en el carrito, decrementa la cantidad
-      if (productoEnCarrito) {
-        producto.cantidad -= productoEnCarrito.cantidad;
-      }
-    }
-  }
+    
 
-  export { productosSupermercado, descontarCantidadesCarrito };
+  export { productosSupermercado};
