@@ -212,9 +212,7 @@ function descontarCantidadesCarrito() {
         renderizarProductos(productosSupermercado)
       }
     });
-    //return productosSupermercado[i].cantidadDisponible
   });
-  console.log(actualizaProductosSuper); 
 }
 
   inputBusqueda.addEventListener('input', filtrarProductos);

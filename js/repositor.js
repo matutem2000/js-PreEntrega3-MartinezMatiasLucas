@@ -1,5 +1,6 @@
 // Productos
 import { productosSupermercado } from './productos.js';
+//import { modificarProducto } from './modificar.js';
 
 
   const inputBusqueda = document.getElementById('busqueda');
@@ -29,14 +30,14 @@ import { productosSupermercado } from './productos.js';
                 </div>
                 <form>
                 <div class="modal-body">
-                  <p>Nombre producto : <input type="text" name="nombreProducto" value="${nombre}"></p>
-                  <p>Nombre categoria : <input type="text" name="categoriaProducto" value="${categoria}"></p>
-                  <p>Precio : <input type="text" name="precioProducto" value="${precio}"></p>
-                  <p>Cantidad disponible : <input type="text" name="cantidadDisponible" value="${cantidadDisponible}"></p>
+                  <p>Nombre producto : <input type="text" id="nuevoNombre" name="nombreProducto" value="${nombre}"></p>
+                  <p>Categoria : <input type="text" id="nuevaCategoria" name="categoriaProducto" value="${categoria}"></p>
+                  <p>Precio : <input type="text" id="nuevoPrecio" name="precioProducto" value="${precio}"></p>
+                  <p>Cantidad disponible : <input type="text" id="nuevaCantidad" name="cantidadDisponible" value="${cantidadDisponible}"></p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary" id="botonModificar" data-idproducto="${idProducto}"  data-nombre="${nombre}" data-categoria="${categoria}" data-precio="${precio}" data-cantidad="${cantidadDisponible}">Guardar</button>
+                  <button type="button" class="btn btn-primary" id="botonModificar" data-idproducto="${idProducto}"  data-nombre="${nombre}" data-categoria="${categoria}" data-precio="${precio}" data-cantidad="${cantidadDisponible}" Guardar</button>
                 </div>
                 </form>
               </div>
@@ -67,36 +68,37 @@ import { productosSupermercado } from './productos.js';
 //modificar valor array de productos
 
 /// Agregar controlador de evento para el botón "Guardar" en cada modal
- tablaProductos.addEventListener('click', function(event) {
-  //console.log("esto es :", event.target);
-  if (event.target.id === 'botonModificar') {
-    const idProducto = event.target.getAttribute('data-idproducto');
-    const nombreNuevo = event.target.getAttribute('data-nombre');
-    const categoriaNuevo = event.target.getAttribute('data-categoria');
-    const precioNuevo = parseFloat(event.target.getAttribute('data-precio'));
-    const cantidadNuevo = parseFloat(event.target.getAttribute('data-cantidad'));
 
-    console.log(`identificador de producto: ${idProducto}
-                  nombre de producto: ${nombreNuevo}
-                  categoria de producto: ${categoriaNuevo}
-                  precio del producto: ${precioNuevo}
-                  cantidad de productos: ${cantidadNuevo}`);
+function modificarProducto() {
+  console.log('dentro de modificarProducto');
+  // Obtener los valores de los campos del formulario
+  const idProducto = event.target.getAttribute('data-idproducto');
+  const nombreNuevo = event.target.getElementById('nuevoNombre').value;
+  const categoriaNuevo = event.target.getElementById('nuevaCategoria').value;
+  const precioNuevo = parseFloat(event.target.getElementById('nuevoPrecio').value);
+  const cantidadNuevo = parseFloat(event.target.getElementById('nuevaCantidad').value);
 
-    // Encontrar el índice del producto en el array
-    const index = productosSupermercado.findIndex(producto => producto.idProducto === parseInt(idProducto));
-console.log(index);
-    if (index !== -1) {
-      // Actualizar los valores del producto en el array
-     // console.log(productosSupermercado[index].nombre);
-      productosSupermercado[index].nombre = nombreNuevo;
-      productosSupermercado[index].categoria = categoriaNuevo;
-      productosSupermercado[index].precio = precioNuevo;
-      productosSupermercado[index].cantidadDisponible = cantidadNuevo;
+  // Encontrar el producto en el array
+  const producto = productosSupermercado.find(producto => producto.idProducto === parseInt(idProducto));
 
-      renderizarProductos(productosSupermercado);
-    }
-  }
-});
+  // Actualizar el producto en el array
+  producto.nombre = nombreNuevo;
+  producto.categoria = categoriaNuevo;
+  producto.precio = precioNuevo;
+  producto.cantidadDisponible = cantidadNuevo;
+
+
+  console.log(`producto.nombre
+                producto.categoria
+                producto.precio
+                producto.cantidadDisponible`);
+  // Mostrar los cambios en la tabla
+  renderizarProductos(productosSupermercado);
+}
+
+const botonMOdificar = document.getElementById('botonModificar');
+
+botonMOdificar.addEventListener('click' modificarProducto);
  
 
   
