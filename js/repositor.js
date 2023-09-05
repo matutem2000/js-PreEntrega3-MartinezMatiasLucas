@@ -28,16 +28,16 @@ import { productosSupermercado } from './productos.js';
                   <h5 class="modal-title" id="exampleModalLabel">Modificar ${nombre}</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form>
+                <form id="formularioModificar">
                 <div class="modal-body">
-                  <p>Nombre producto : <input type="text" id="nuevoNombre" name="nombreProducto" value="${nombre}"></p>
-                  <p>Categoria : <input type="text" id="nuevaCategoria" name="categoriaProducto" value="${categoria}"></p>
-                  <p>Precio : <input type="text" id="nuevoPrecio" name="precioProducto" value="${precio}"></p>
-                  <p>Cantidad disponible : <input type="text" id="nuevaCantidad" name="cantidadDisponible" value="${cantidadDisponible}"></p>
+                  <p>Nombre producto : <input type="text" id="nuevoNombre-${idProducto}" name="nombreProducto" value="${nombre}"></p>
+                  <p>Categoria : <input type="text" id="nuevaCategoria-${idProducto}" name="categoriaProducto" value="${categoria}"></p>
+                  <p>Precio : <input type="text" id="nuevoPrecio-${idProducto}" name="precioProducto" value="${precio}"></p>
+                  <p>Cantidad disponible : <input type="text" id="nuevaCantidad-${idProducto}" name="cantidadDisponible" value="${cantidadDisponible}"></p>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary" id="botonModificar" data-idproducto="${idProducto}"  data-nombre="${nombre}" data-categoria="${categoria}" data-precio="${precio}" data-cantidad="${cantidadDisponible}" Guardar</button>
+                  <button type="button" class="btn btn-primary" id="botonModificar-${idProducto}" data-idproducto="${idProducto}"  data-nombre="${nombre}" data-categoria="${categoria}" data-precio="${precio}" data-cantidad="${cantidadDisponible}" data-bs-dismiss="modal"> Guardar</button>
                 </div>
                 </form>
               </div>
@@ -64,49 +64,55 @@ import { productosSupermercado } from './productos.js';
     const productosOrdenados = productosSupermercado.sort((productoA, productoB) => productoA.precio - productoB.precio);
   renderizarProductos(productosOrdenados);
 }
+inputBusqueda.addEventListener('input', filtrarProductos);
+botonOrdenarPorPrecioDs.addEventListener('click', ordenarProductosPorPrecioDescendente);
+botonOrdenarPorPrecioAs.addEventListener('click', ordenarProductosPorPrecioAscedente);
 
-//modificar valor array de productos
-
-/// Agregar controlador de evento para el botón "Guardar" en cada modal
-
-function modificarProducto() {
-  console.log('dentro de modificarProducto');
-  // Obtener los valores de los campos del formulario
-  const idProducto = event.target.getAttribute('data-idproducto');
-  const nombreNuevo = event.target.getElementById('nuevoNombre').value;
-  const categoriaNuevo = event.target.getElementById('nuevaCategoria').value;
-  const precioNuevo = parseFloat(event.target.getElementById('nuevoPrecio').value);
-  const cantidadNuevo = parseFloat(event.target.getElementById('nuevaCantidad').value);
-
-  // Encontrar el producto en el array
-  const producto = productosSupermercado.find(producto => producto.idProducto === parseInt(idProducto));
-
-  // Actualizar el producto en el array
-  producto.nombre = nombreNuevo;
-  producto.categoria = categoriaNuevo;
-  producto.precio = precioNuevo;
-  producto.cantidadDisponible = cantidadNuevo;
+// Iniciar la tabla con todos los productos al cargar la página
+renderizarProductos(productosSupermercado);
 
 
-  console.log(`producto.nombre
-                producto.categoria
-                producto.precio
-                producto.cantidadDisponible`);
-  // Mostrar los cambios en la tabla
-  renderizarProductos(productosSupermercado);
-}
 
-const botonMOdificar = document.getElementById('botonModificar');
+// Agregar controlador de evento para el botón "Guardar" en cada modal
+const botonesGuardar = document.querySelectorAll('[id^="botonModificar-"]');
 
-botonMOdificar.addEventListener('click' modificarProducto);
- 
+botonesGuardar.forEach(boton => {
+  boton.addEventListener('click', function(event) {
+    // Obtener el id del producto
+    const idProducto = event.currentTarget.getAttribute('data-idproducto');
 
-  
-  inputBusqueda.addEventListener('input', filtrarProductos);
-  botonOrdenarPorPrecioDs.addEventListener('click', ordenarProductosPorPrecioDescendente);
-  botonOrdenarPorPrecioAs.addEventListener('click', ordenarProductosPorPrecioAscedente);
-  
-  // Iniciar la tabla con todos los productos al cargar la página
-  renderizarProductos(productosSupermercado);
-  
+    // Obtener los nuevos valores de input
+    const nuevoNombre = document.querySelector(`#nuevoNombre-${idProducto}`).value;
+    const nuevaCategoria = document.querySelector(`#nuevaCategoria-${idProducto}`).value;
+    const nuevoPrecio = document.querySelector(`#nuevoPrecio-${idProducto}`).value;
+    const nuevaCantidad = document.querySelector(`#nuevaCantidad-${idProducto}`).value;
+
+    // Puedes utilizar los valores como desees
+    console.log('Nuevo Nombre:', nuevoNombre);
+    console.log('Nueva Categoría:', nuevaCategoria);
+    console.log('Nuevo Precio:', nuevoPrecio);
+    console.log('Nueva Cantidad Disponible:', nuevaCantidad);
+
+    // Actualizar los valores correspondientes en productosSupermercado
+    for (let i = 0; i < productosSupermercado.length; i++) {
+      if (productosSupermercado[i].idProducto == idProducto) {
+        productosSupermercado[i].nombre = nuevoNombre;
+        productosSupermercado[i].categoria = nuevaCategoria;
+        productosSupermercado[i].precio = parseFloat(nuevoPrecio); // Convierte a número
+        productosSupermercado[i].cantidadDisponible = parseInt(nuevaCantidad); // Convierte a número entero
+        break; // Salir del bucle una vez que se haya actualizado el producto
+      }
+    }
+    // Renderizar la tabla de productos nuevamente con los valores actualizados
+    renderizarProductos(productosSupermercado);
+  });
+});
+
+
+document.body.classList.remove('modal-open');
+
+
+
+
+
 
